@@ -1,4 +1,9 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
+import { ArrowUpRight } from "lucide-react"
+
 import FadeContent from "@/components/ui/fade-content"
 import { GlacialCard } from "@/components/ui/glacial-card"
 
@@ -6,193 +11,234 @@ interface PortfolioItem {
   id: string
   name: string
   initial: string
-  descriptor: string
-  metric: string
-  accent: string // color hex
+  tag: string
+  value: string
+  accent: string
+  accentLight: string
   accentIsLight: boolean
-  priority: boolean
+  span: "wide" | "normal"
 }
-
-interface PortfolioSectionProps {}
 
 const portfolioItems: PortfolioItem[] = [
   {
     id: "art-vanguard",
     name: "Art-Vanguard",
     initial: "A",
-    descriptor: "Fine Arts · Global Sales",
-    metric: "Optimización de carga para activos 8K y visualización inmersiva",
+    tag: "Fine Arts & Global Sales",
+    value: "8K asset load optimization and immersive visualization",
     accent: "#1E293B",
+    accentLight: "#334155",
     accentIsLight: false,
-    priority: true,
+    span: "wide",
   },
   {
     id: "pawhealth",
     name: "PawHealth",
     initial: "P",
-    descriptor: "PetCare · Booking",
-    metric: "Interfaz simplificada para gestión de citas y expedientes médicos",
-    accent: "#BAE6FD",
-    accentIsLight: true,
-    priority: true,
+    tag: "PetCare & Booking",
+    value: "Simplified interface for appointment and medical record management",
+    accent: "#0284C7",
+    accentLight: "#38BDF8",
+    accentIsLight: false,
+    span: "normal",
   },
   {
     id: "marinelogix",
     name: "MarineLogix",
     initial: "M",
-    descriptor: "Logistics · CDMX Global",
-    metric: "Dashboard de tracking en tiempo real con baja latencia",
+    tag: "Logistics & CDMX Global",
+    value: "Real-time tracking dashboard with low latency",
     accent: "#0F4C75",
+    accentLight: "#1B6CA8",
     accentIsLight: false,
-    priority: true,
+    span: "normal",
   },
   {
     id: "gourmetgo",
     name: "GourmetGo",
     initial: "G",
-    descriptor: "Pick & Go · Artesanal",
-    metric: "Sistema de pedidos flash optimizado para dispositivos móviles",
-    accent: "#92400E",
+    tag: "Pick & Go / Artisanal",
+    value: "Flash ordering system optimized for mobile devices",
+    accent: "#B45309",
+    accentLight: "#D97706",
     accentIsLight: false,
-    priority: false,
+    span: "normal",
   },
   {
     id: "civicbuild",
     name: "CivicBuild",
     initial: "C",
-    descriptor: "Infraestructura · Proyectos",
-    metric: "Documentación visual de obra con renderizado progresivo",
+    tag: "Infrastructure / Projects",
+    value: "Visual construction documentation with progressive rendering",
     accent: "#374151",
+    accentLight: "#4B5563",
     accentIsLight: false,
-    priority: false,
+    span: "normal",
   },
   {
     id: "industrialnexus",
     name: "IndustrialNexus",
     initial: "I",
-    descriptor: "Parques Industriales · Qro",
-    metric: "Navegación espacial 2D/3D de lotes y naves industriales",
+    tag: "Industrial Parks Qro",
+    value: "2D/3D spatial navigation of lots and industrial warehouses",
     accent: "#1F2937",
+    accentLight: "#374151",
     accentIsLight: false,
-    priority: false,
+    span: "normal",
   },
   {
     id: "purelife",
     name: "PureLife",
     initial: "P",
-    descriptor: "Healthcare · Fertilidad",
-    metric: "Entorno digital seguro y estético para pacientes premium",
-    accent: "#E0F2FE",
-    accentIsLight: true,
-    priority: false,
+    tag: "Healthcare / Fertility",
+    value: "Secure and aesthetic digital environment for premium patients",
+    accent: "#0C4A6E",
+    accentLight: "#0EA5E9",
+    accentIsLight: false,
+    span: "normal",
   },
   {
     id: "normaflow",
     name: "NormaFlow",
     initial: "N",
-    descriptor: "Nearshoring · Legal",
-    metric: "Arquitectura de información para trámites y cumplimiento normativo",
-    accent: "#312E81",
+    tag: "Nearshoring / Legal",
+    value: "Information architecture for procedures and regulatory compliance",
+    accent: "#1E3A5F",
+    accentLight: "#2563EB",
     accentIsLight: false,
-    priority: false,
+    span: "wide",
   },
 ]
 
-// Función auxiliar para determinar contraste de texto sobre el color base
-const getContrastTextColor = (hexColor: string) => {
-  const color = hexColor.charAt(0) === "#" ? hexColor.substring(1, 7) : hexColor
-  const r = parseInt(color.substring(0, 2), 16)
-  const g = parseInt(color.substring(2, 4), 16)
-  const b = parseInt(color.substring(4, 6), 16)
+const staggerDelays = [0, 50, 100, 150, 200, 250, 300, 350]
 
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-  return luminance > 0.5 ? "text-slate-900" : "text-white"
+function PortfolioCard({ item, delay }: { item: PortfolioItem; delay: number }) {
+  const [hovered, setHovered] = useState(false)
+  const reducedMotion = useReducedMotion()
+
+  return (
+    <FadeContent delay={delay} className="h-full">
+      <GlacialCard
+        tilt={true}
+        glow={true}
+        className="h-full flex flex-col overflow-hidden relative p-0"
+      >
+        {/* Lettermark background */}
+        <span
+          aria-hidden="true"
+          className="absolute bottom-0 right-2 select-none pointer-events-none font-mono leading-none"
+          style={{
+            fontSize: "clamp(6rem, 12vw, 10rem)",
+            color: item.accent,
+            opacity: item.accentIsLight ? 0.2 : 0.08,
+            fontFamily: "var(--font-geist-mono, monospace)",
+            zIndex: 0,
+            userSelect: "none",
+            lineHeight: 0.85,
+            WebkitTextStroke: `1px ${item.accentLight}33`,
+          }}
+        >
+          {item.initial}
+        </span>
+
+        {/* Gradient header */}
+        <div
+          className="relative z-10 w-full h-28 shrink-0"
+          style={{
+            background: `linear-gradient(135deg, ${item.accent} 0%, ${item.accentLight} 100%)`,
+            boxShadow: `inset 0 1px 0 rgba(255,255,255,0.15)`,
+          }}
+        >
+          {/* Industry tag pill */}
+          <span
+            className="
+              absolute top-3 right-3 text-[10px] font-mono uppercase tracking-wider
+              bg-white/20 backdrop-blur-sm
+              rounded-full px-2.5 py-1 font-medium text-white
+              border border-white/20
+            "
+          >
+            {item.tag}
+          </span>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 p-5 flex flex-col flex-1">
+          <h3 className="text-lg font-semibold text-slate-900">
+            {item.name}
+          </h3>
+          <p className="text-xs font-mono tracking-widest uppercase text-slate-400 mt-1 mb-2">
+            e-Commerce
+          </p>
+          <p className="text-sm text-slate-600 leading-relaxed line-clamp-2 mt-auto">
+            {item.value}
+          </p>
+
+          {/* Hover reveal CTA */}
+          <AnimatePresence>
+            {hovered && !reducedMotion && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.2 }}
+                className="mt-3 flex items-center gap-1.5 text-xs font-medium text-sky-600"
+              >
+                <span>Ver detalles</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Hover detector overlay */}
+        <div
+          className="absolute inset-0 z-20"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        />
+      </GlacialCard>
+    </FadeContent>
+  )
 }
 
-export function PortfolioSection({}: PortfolioSectionProps) {
+export function PortfolioSection() {
   return (
-    <section id="portfolio" className="py-24 px-6 md:px-12 lg:px-24 bg-transparent">
+    <section id="portfolio" className="py-24 px-6 md:px-12 lg:px-24 bg-[#EEF4FF]">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
-        {/* Encabezado */}
-        <FadeContent delay={0} className="mb-4 text-center">
-          <div className="flex items-center justify-center gap-3">
-            <h2 className="font-sans font-bold text-3xl md:text-4xl text-slate-900">
+        {/* Header */}
+        <FadeContent delay={0} className="mb-3 text-center">
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-slate-500 font-medium">
+            Portfolio
+          </span>
+        </FadeContent>
+
+        <FadeContent delay={50} className="mb-4 text-center w-full">
+          <div className="flex items-center gap-6">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-slate-300" />
+            <h2 className="font-sans font-bold text-3xl md:text-4xl text-slate-900 whitespace-nowrap">
               Concept Works
             </h2>
-            <span className="text-xs bg-slate-100 text-slate-500 rounded-full px-2 py-0.5 font-medium">
-              Research Projects
-            </span>
+            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-slate-300" />
           </div>
         </FadeContent>
 
         <FadeContent delay={100} className="mb-16 text-center">
-          <p className="font-sans text-base md:text-lg text-slate-600">
-            8 nichos estratégicos. 8 identidades distintas.
+          <p className="font-sans text-base md:text-lg text-slate-500">
+            8 nichos estrategicos. 8 identidades distintas.
           </p>
         </FadeContent>
 
-        {/* Grid */}
+        {/* Bento grid */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-          {portfolioItems.map((item, index) => {
-            // Fila 1 (items 0-3): 200ms | Fila 2 (items 4-7): 350ms
-            const delay = index < 4 ? 200 : 350
-            const badgeTextColor = getContrastTextColor(item.accent)
-
-            return (
-              <FadeContent key={item.id} delay={delay} className="h-full">
-                <GlacialCard
-                  tilt={true}
-                  glow={true}
-                  className="h-full flex flex-col overflow-hidden relative p-0"
-                >
-                  {/* Lettermark decorativo — fondo de card */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-0 right-2 select-none pointer-events-none font-mono leading-none"
-                    style={{
-                      fontSize: 'clamp(7rem, 15vw, 11rem)',
-                      color: item.accent,
-                      opacity: item.accentIsLight ? 0.28 : 0.13,
-                      fontFamily: 'var(--font-geist-mono, monospace)',
-                      zIndex: 0,
-                      userSelect: 'none',
-                      lineHeight: 0.85,
-                    }}
-                  >
-                    {item.initial}
-                  </span>
-
-                  {/* Capa A — Bloque visual superior */}
-                  <div
-                    className="relative z-10 w-full h-32 shrink-0 rounded-t-xl"
-                    style={{ backgroundColor: item.accent }}
-                  >
-                    <span
-                      className={`
-                        absolute top-3 right-3 text-xs bg-white/20 backdrop-blur-sm 
-                        rounded-full px-2 py-0.5 font-medium ${badgeTextColor}
-                      `}
-                    >
-                      Concept Work
-                    </span>
-                  </div>
-
-                  {/* Capa B — Contenido inferior */}
-                  <div className="relative z-10 p-5 flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold text-slate-900">
-                      {item.name}
-                    </h3>
-                    <p className="text-xs font-mono tracking-widest uppercase opacity-60 mt-1 mb-2">
-                      {item.descriptor}
-                    </p>
-                    <p className="text-sm text-slate-600 leading-relaxed line-clamp-2 mt-auto">
-                      {item.metric}
-                    </p>
-                  </div>
-                </GlacialCard>
-              </FadeContent>
-            )
-          })}
+          {portfolioItems.map((item, index) => (
+            <div
+              key={item.id}
+              className={item.span === "wide" ? "sm:col-span-2" : ""}
+            >
+              <PortfolioCard item={item} delay={staggerDelays[index]} />
+            </div>
+          ))}
         </div>
       </div>
     </section>

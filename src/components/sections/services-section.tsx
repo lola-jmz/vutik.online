@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Layers, Zap } from "lucide-react"
+import { Grid2x2 as Grid, Layers, Zap } from "lucide-react"
 
 import FadeContent from "@/components/ui/fade-content"
 import { GlacialCard } from "@/components/ui/glacial-card"
@@ -39,7 +39,7 @@ const services: Service[] = [
 
 export function ServicesSection({}: ServicesSectionProps) {
   return (
-    <section id="servicios" className="py-24 px-6 md:px-12 lg:px-24 bg-transparent">
+    <section id="servicios" className="py-24 px-6 md:px-12 lg:px-24 bg-[#EEF4FF]">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         {/* Título de Sección */}
         <FadeContent delay={0} className="mb-4 text-center">

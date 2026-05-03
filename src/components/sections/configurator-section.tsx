@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { Loader2 } from "lucide-react"
+import { Loader as Loader2 } from "lucide-react"
 
 import FadeContent from "@/components/ui/fade-content"
 import { GlacialCard } from "@/components/ui/glacial-card"
@@ -331,7 +331,7 @@ export function ConfiguratorSection() {
   if (!isHydrated) return null // Evitar mismatch SSR/CSR
 
   return (
-    <section id="configurador" className="py-24 px-6 md:px-12 lg:px-24 bg-transparent flex flex-col items-center">
+    <section id="configurador" className="py-24 px-6 md:px-12 lg:px-24 bg-[#EEF4FF] flex flex-col items-center">
       {/* TÍTULO Y SUBTÍTULO */}
       <FadeContent delay={0} className="mb-12 text-center">
         <h2 className="font-sans font-bold text-3xl md:text-4xl text-slate-900 mb-4">
