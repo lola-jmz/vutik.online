@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VUTiK Online - Frontend
 
-## Getting Started
+Agencia de desarrollo web frontend especializada en la creación de interfaces de alto rendimiento (JAMstack/PWA) y estética premium.
 
-First, run the development server:
+## 🚀 Tecnologías Principales (Stack Real)
+
+Este proyecto está construido con herramientas modernas enfocadas en la experiencia de usuario (UX) y el rendimiento:
+
+- **Framework:** Next.js 16.2 (App Router) + React 19
+- **Lenguaje:** TypeScript estricto
+- **Estilos:** Tailwind CSS v4
+- **Animaciones:** Framer Motion, GSAP, OGL (WebGL)
+- **UI & Componentes:** Lucide React, base-ui, Shadcn UI
+- **Arquitectura:** Atomic Design Modular
+
+## 💻 Desarrollo Local
+
+### Requisitos Previos
+- Node.js 24.13.0 LTS o superior
+
+### Instalación
+
+Asegúrate de instalar las dependencias antes de iniciar el proyecto:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Ejecutar Servidor Local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para utilizar el entorno configurado para este proyecto y evitar conflictos, levanta el servidor de desarrollo en el puerto `3001`:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev -- -p 3001
+```
 
-## Learn More
+Abre [http://localhost:3001](http://localhost:3001) en tu navegador para ver la página.
 
-To learn more about Next.js, take a look at the following resources:
+### 📱 Pruebas en Dispositivos Móviles (Red Local)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+El proyecto cuenta con una configuración de seguridad en `next.config.ts` (`allowedDevOrigins`) que habilita el Hot Module Replacement y la carga de fuentes estáticas a través de tu red local. 
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Para probar en el móvil:
+1. Asegúrate de que el servidor de desarrollo está corriendo en tu PC.
+2. Desde tu móvil conectado al mismo WiFi, accede a la IP local de tu ordenador seguida del puerto `3001` (ej. `http://192.168.6.241:3001`).
 
-## Deploy on Vercel
+## 🏗️ Arquitectura del Proyecto
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+El código fuente sigue los principios de diseño atómico para maximizar el mantenimiento:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/src/app`: Rutas principales y layouts de Next.js.
+- `/src/components/ui`: Componentes atómicos e interactivos base (tarjetas glaciales, auroras, botones).
+- `/src/components/sections`: Organismos y ensambles completos de la landing (Hero, Portfolio, Services, TechStack).
+- `/public`: Activos estáticos como logotipos e iconografía en SVG.
+
+## 🛡️ Decisiones de Diseño y Accesibilidad
+- **UI Glacial:** Uso avanzado de *glassmorphism* (`backdrop-filter`) perfeccionado con inyección de texturas de ruido visual global (`.glacial-noise`) para una estética ultra-premium.
+- **Accesibilidad Inclusiva (WCAG 2.2 AA):** Contraste tipográfico validado y soporte estricto a las preferencias del usuario mediante `prefers-reduced-motion`, adaptando o deshabilitando animaciones e interacciones 3D según la configuración del sistema operativo.
+
+---
+*VUTiK Online - Elevando los estándares del desarrollo frontend.*
