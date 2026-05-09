@@ -3,24 +3,17 @@ import { ServicesSection } from "@/components/sections/services-section"
 import { TechStackSection } from "@/components/sections/tech-stack-section"
 import { PortfolioSection } from "@/components/sections/portfolio-section"
 import { ConfiguratorSection } from "@/components/sections/configurator-section"
+import { FaqSection } from "@/components/sections/faq-section"
 
 export default function HomePage() {
-  return (
-    <main className="bg-[#F8FAFC] min-h-screen">
-      {/* Sección 1 */}
-      <HeroSection />
-
-      {/* Sección 2 */}
-      <ServicesSection />
-
-      {/* Sección 3 */}
-      <TechStackSection />
-
-      {/* Sección 4 */}
-      <PortfolioSection />
-
-      {/* Sección 5 */}
-      <ConfiguratorSection />
-    </main>
-  )
+    return (
+        <main className="bg-[#EEF4FF] min-h-screen">
+            <HeroSection />
+            <ServicesSection />
+            <TechStackSection />
+            <PortfolioSection />
+            <ConfiguratorSection />
+            <FaqSection />
+        </main>
+    )
 }
